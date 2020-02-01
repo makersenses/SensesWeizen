@@ -1,52 +1,44 @@
 #include "Senses_wifi_esp32.h"
 #include "DHT.h"
-
 #define DHTPIN 32
-#define DHTTYPE DHT11
-DHT dht(DHTPIN, DHTTYPE);
+#define DHTTYPE DHT22
+DHT dht(DHTPIN, DHTTYPE);                                       
 
-const char *ssid = "";
-const char *passw = "";
-const char *userid = "";
-const char *key = "";
+const char *ssid = "BOOM_WiFi";
+const char *passw = "076434654";
+const char *userid = "122";
+const char *key = "p3itsvhtzzj7";
 
-String response;
-int slot_number = 1;
-float data;
-
-float t,h;
+int slot_number_temp = 1;
+int slot_number_humidity = 2;
 
 Senses_wifi_esp32 myiot;
 
-void setup(){
+void setup() {
   Serial.begin(9600);
   dht.begin();
-  response = myiot.connect(ssid, passw, userid, key);
+  Serial.println("Senses Platfrom in WEIZEN");
+  String response = myiot.connect(ssid, passw, userid, key);
   Serial.println(response);
 }
 
-void loop(){
+void loop() {
 
-  response = "";
-
-  /* - DHT sensor reading - */
-  t = dht.readTemperature();
-  h = dht.readHumidity();
+  float  t = dht.readTemperature();
+  float  h = dht.readHumidity();
 
   if (isnan(t) || isnan(h)) {
     Serial.println("Failed to read from DHT sensor!");
     return;
   }
-
-  Serial.println("Temperature is " + String(t) + " celcuis");
-  Serial.println("Humidity is " + String(h) + " %RH");
-  Serial.println("----------------------------------------");
-
-  response = myiot.send(1,t);
+  String response = myiot.send(slot_number_temp, t);
   Serial.println(response);
 
-  response = myiot.send(2,h);
+  response = myiot.send(slot_number_humidity, h);
   Serial.println(response);
 
-  delay(5000);
+  Serial.print("Humidity: ");     Serial.print(h);  Serial.println(" % ");
+  Serial.print("Temperature: ");  Serial.print(t);  Serial.println(" °C ");
+
+  delay(2000);
 }
