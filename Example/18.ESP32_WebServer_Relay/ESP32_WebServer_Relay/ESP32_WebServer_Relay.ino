@@ -13,7 +13,6 @@ const int Relay2_PIN = 22;
 const int Relay3_PIN = 33;
 
 void setup() {
-
   Serial.begin(115200);
   pinMode(Relay1_PIN, OUTPUT);
   pinMode(Relay2_PIN, OUTPUT);
