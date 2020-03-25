@@ -8,9 +8,9 @@ String Relay1_State = "off";
 String Relay2_State = "off";
 String Relay3_State = "off";
 
-const int Relay1_PIN = 21;
-const int Relay2_PIN = 22;
-const int Relay3_PIN = 33;
+const int Relay1_PIN = 32;
+const int Relay2_PIN = 26;
+const int Relay3_PIN = 13;
 
 void setup() {
   Serial.begin(115200);
